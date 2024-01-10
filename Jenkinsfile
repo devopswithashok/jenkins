@@ -2,32 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout your Angular project from version control (e.g., Git)
-                checkout scm
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 // Install Node.js and npm
                 // This assumes you have Node.js and npm installed on your Jenkins agent
-                sh 'npm install'
+                sh 'sudo npm install'
             }
         }
 
         stage('Build') {
             steps {
                 // Build the Angular application
-                sh 'npm run build'
+                sh 'sudo npm run build'
             }
         }
 
         stage('Test') {
             steps {
                 // Run tests if applicable
-                sh 'npm test'
+                sh 'sudo npm test'
             }
         }
 
