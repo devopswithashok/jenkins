@@ -16,7 +16,7 @@ pipeline {
                 sh 'npm -v'
             }
         }
-
+    }
     post {
         success {
             // You can add post-build actions here
