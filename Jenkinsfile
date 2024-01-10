@@ -1,26 +1,55 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage("Build Project"){
-            steps{
-                echo "========executing A========"
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your Angular project from version control (e.g., Git)
+                checkout scm
             }
         }
-        stage("Test Project"){
-            steps{
-                echo "========executing A========"
+
+        stage('Install Dependencies') {
+            steps {
+                // Install Node.js and npm
+                // This assumes you have Node.js and npm installed on your Jenkins agent
+                sh 'npm install'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Build the Angular application
+                sh 'npm run build'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Run tests if applicable
+                sh 'npm test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Deploy your Angular application (e.g., copy files to a web server)
+                // You may need additional steps based on your deployment strategy
+                // For example, you can use rsync, scp, or other methods to copy files
+                sh 'rsync -avz --delete dist/ your-server:/path/to/deploy'
             }
         }
     }
-    post{
-        always{
-            echo "========always========"
+
+    post {
+        success {
+            // You can add post-build actions here
+            echo 'Build and deployment successful!'
         }
-        success{
-            echo "========pipeline executed successfully ========"
-        }
-        failure{
-            echo "========pipeline execution failed========"
+
+        failure {
+            // You can add actions to be executed if the build fails
+            echo 'Build or deployment failed!'
         }
     }
 }
